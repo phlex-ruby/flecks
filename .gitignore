@@ -1,0 +1,17 @@
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+/spec/examples.txt
+/spec/internal/**/log/*
+node_modules
+/docs/dist
+Gemfile.lock
+.rubocop-*
+.covered.db
+.DS_Store
+.gem
