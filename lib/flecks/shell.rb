@@ -29,9 +29,6 @@ class Flecks::Shell < Phlex::HTML
 				when Thread
 					next if task.alive?
 					div(slot: id) { content.call(task.value) }
-				when Ractor
-					next if task.alive?
-					div(slot: id) { content.call(task.value) }
 				when defined?(Async) && Async::Task
 					next if task.running?
 					div(slot: id) { content.call(task.result) }
