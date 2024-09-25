@@ -11,6 +11,7 @@ class Flecks::Shell < Phlex::HTML
 
 	def view_template
 		template(shadowrootmode: "open") do
+			# Hack to encourage Safari to stream the content 😞
 			div(aria_hidden: "true", style: "width: 0; height: 0; overflow: hidden;") { "0" * 512 }
 			yield
 		end
