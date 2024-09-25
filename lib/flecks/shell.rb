@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Flecks::Shell < Phlex::HTML
+	ZERO_WIDTH_SPACE = "&#8203"
+	SAFE_BYTES_FOR_SAFARI = Phlex::SGML::SafeValue.new(ZERO_WIDTH_SPACE * 512)
+
 	def before_template
 		if context[:rendered_shell]
 			raise "You shouldn’t render more than one shell."
@@ -12,7 +15,7 @@ class Flecks::Shell < Phlex::HTML
 	def view_template
 		template(shadowrootmode: "open") do
 			# Hack to encourage Safari to stream the content 😞
-			div(aria_hidden: "true", style: "width: 0; height: 0; overflow: hidden;") { "0" * 512 }
+			span(aria_hidden: "true", style: "-webkit-user-select: none; user-select: none;") { raw SAFE_BYTES_FOR_SAFARI }
 			yield
 		end
 
