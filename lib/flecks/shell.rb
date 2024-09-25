@@ -9,8 +9,11 @@ class Flecks::Shell < Phlex::HTML
 		context[:rendered_shell] = true
 	end
 
-	def view_template(&)
-		template(shadowrootmode: "open", &)
+	def view_template
+		template(shadowrootmode: "open") do
+			div(aria_hidden: "true", style: "width: 0; height: 0; overflow: hidden;") { "0" * 512 }
+			yield
+		end
 
 		flush
 
