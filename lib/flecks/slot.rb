@@ -3,9 +3,9 @@
 class Flecks::Slot < Phlex::HTML
 	include Phlex::DeferredRender
 
-	def initialize(promise)
+	def initialize(task)
 		@id = SecureRandom.urlsafe_base64
-		@promise = promise
+		@task = task
 		@placeholder = nil
 	end
 
@@ -18,6 +18,7 @@ class Flecks::Slot < Phlex::HTML
 	end
 
 	def content(&content)
-		(context[:slots] ||= {})[@id] = [@promise, content]
+		queue = context[:slots] ||= Flecks::Queue.new
+		queue.push(@id, @task, content)
 	end
 end
