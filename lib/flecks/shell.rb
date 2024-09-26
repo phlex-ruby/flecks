@@ -16,7 +16,7 @@ class Flecks::Shell < Phlex::HTML
 		Sync do
 			template(shadowrootmode: "open") do
 				# Hack to encourage Safari to stream the content 😞
-				span(aria_hidden: "true", style: "-webkit-user-select: none; user-select: none; pointer-events: none;") { raw SAFE_BYTES_FOR_SAFARI }
+				span(aria_hidden: "true", style: "-webkit-user-select: none; user-select: none;") { raw SAFE_BYTES_FOR_SAFARI }
 				yield
 			end
 
