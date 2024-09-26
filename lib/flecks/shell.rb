@@ -21,8 +21,10 @@ class Flecks::Shell < Phlex::HTML
 
 		flush
 
-		context[:slots].drain do |(id, result, content)|
-			div(slot: id) { content.call(result) }
+		if (slots = context[:slots])
+			slots.drain do |(id, result, content)|
+				div(slot: id) { content.call(result) }
+			end
 		end
 	end
 end
