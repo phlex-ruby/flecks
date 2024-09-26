@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Flecks::Shell < Phlex::HTML
-	ZERO_WIDTH_SPACE = "&#8203"
+	ZERO_WIDTH_SPACE = "​" # trust me, it’s there! 😅
 	SAFE_BYTES_FOR_SAFARI = Phlex::SGML::SafeValue.new(ZERO_WIDTH_SPACE * 512)
 
 	def before_template
