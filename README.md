@@ -6,9 +6,7 @@ See [video demo](https://cloud.drapper.me/DYH7WFL8).
 
 ## Recommendations
 
-Although Flecks also supports concurrent promises, threads and async ActiveRecord relations, we recommend using [async](https://github.com/socketry/async) tasks, since Fibers are much more lightweight and efficient than Threads.
-
-We also recommend using the [Falcon](https://github.com/socketry/falcon) web server which uses multiple fibers to handle requests concurrently.
+We recommend using the [Falcon](https://github.com/socketry/falcon) web server which uses multiple fibers to handle requests concurrently, since this will play best with our fiber-based approach to background tasks.
 
 ## Acknowledgements
 
