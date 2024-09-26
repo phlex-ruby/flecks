@@ -22,7 +22,7 @@ class Flecks::Shell < Phlex::HTML
 
 			flush
 
-			if (slots = context[:slots])
+			if (slots = context[:flecks_slots])
 				slots.drain do |id, result, content|
 					div(slot: id) { content.call(result) }
 					flush

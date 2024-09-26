@@ -15,7 +15,7 @@ class Flecks::Slot < Phlex::HTML
 		id = @id
 
 		slot(name: id, &@placeholder)
-		queue = context[:slots] ||= Flecks::Queue.new
+		queue = context[:flecks_slots] ||= Flecks::Queue.new
 		queue.push(id, @task, @content)
 	end
 
