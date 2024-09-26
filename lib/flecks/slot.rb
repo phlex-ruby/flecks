@@ -3,21 +3,27 @@
 class Flecks::Slot < Phlex::HTML
 	include Phlex::DeferredRender
 
-	def initialize(promise)
+	def initialize(task)
+		task => Proc
 		@id = SecureRandom.urlsafe_base64
-		@promise = promise
+		@task = task
 		@placeholder = nil
+		@content = nil
 	end
 
 	def view_template
-		slot(name: @id, &@placeholder)
+		id = @id
+
+		slot(name: id, &@placeholder)
+		queue = context[:slots] ||= Flecks::Queue.new
+		queue.push(id, @task, @content)
 	end
 
-	def placeholder(&content)
-		@placeholder = content
+	def placeholder(&placeholder)
+		@placeholder = placeholder
 	end
 
 	def content(&content)
-		(context[:slots] ||= {})[@id] = [@promise, content]
+		@content = content
 	end
 end

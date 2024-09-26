@@ -13,40 +13,21 @@ class Flecks::Shell < Phlex::HTML
 	end
 
 	def view_template
-		template(shadowrootmode: "open") do
-			# Hack to encourage Safari to stream the content 😞
-			span(aria_hidden: "true", style: "-webkit-user-select: none; user-select: none; pointer-events: none;") { raw SAFE_BYTES_FOR_SAFARI }
-			yield
-		end
-
-		flush
-
-		slots = context[:slots] ||= {}
-
-		while slots.length > 0
-			slots.each do |id, (task, content)|
-				case task
-				when Thread
-					next if task.alive?
-					div(slot: id) { content.call(task.value) }
-				when defined?(Async) && Async::Task
-					next if task.running?
-					div(slot: id) { content.call(task.result) }
-				when defined?(Concurrent::IVar) && Concurrent::IVar
-					next if task.pending?
-					div(slot: id) { content.call(task.value) }
-				when defined?(ActiveRecord::Relation) && ActiveRecord::Relation
-					next if !!task.instance_variable_get(:@future_result)&.pending?
-					div(slot: id) { content.call(task) }
-				else
-					raise "Unknown task type: #{task.inspect}"
-				end
-
-				flush
-				slots.delete(id)
+		Sync do
+			template(shadowrootmode: "open") do
+				# Hack to encourage Safari to stream the content 😞
+				span(aria_hidden: "true", style: "-webkit-user-select: none; user-select: none; pointer-events: none;") { raw SAFE_BYTES_FOR_SAFARI }
+				yield
 			end
 
-			sleep 0.01
+			flush
+
+			if (slots = context[:slots])
+				slots.drain do |id, result, content|
+					div(slot: id) { content.call(result) }
+					flush
+				end
+			end
 		end
 	end
 end

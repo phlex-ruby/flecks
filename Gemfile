@@ -17,4 +17,3 @@ group :development do
 end
 
 gem "concurrent-ruby"
-gem "async"
