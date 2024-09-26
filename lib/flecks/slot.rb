@@ -16,7 +16,7 @@ class Flecks::Slot < Phlex::HTML
 
 		slot(name: id, &@placeholder)
 		queue = context[:slots] ||= Flecks::Queue.new
-		Async { queue.push(id, @task, @content) }
+		queue.push(id, @task, @content)
 	end
 
 	def placeholder(&placeholder)
