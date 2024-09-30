@@ -14,7 +14,7 @@ class Flecks::Slot < Phlex::HTML
 	def view_template
 		id = @id
 
-		slot(name: id, &@placeholder)
+		div(data_phlex_slot: id, &@placeholder)
 		queue = context[:flecks_slots] ||= Flecks::Queue.new
 		queue.push(id, @task, @content)
 	end
