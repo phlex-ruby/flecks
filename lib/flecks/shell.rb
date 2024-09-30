@@ -25,16 +25,14 @@ class Flecks::Shell < Phlex::HTML
 
 			if (slots = context[:flecks_slots])
 				slots.drain do |id, result, content|
-					script(type: "text/javascript", nonce: @nonce) do
+					script(type: "text/javascript", type: :module, nonce: @nonce) do
 						raw(
 							safe <<~JS
 								(function() {
-									setTimeout(function() {
-										document
-											.querySelectorAll('[data-phlex-slot="#{id}"]').forEach(function(element) {
-												element.outerHTML = `#{capture { content.call(result) } }`;
-											});
-									}, 0);
+									document
+										.querySelectorAll('[data-phlex-slot="#{id}"]').forEach(function(element) {
+											element.outerHTML = `#{capture { content.call(result) } }`;
+										});
 								})();
 							JS
 						)
